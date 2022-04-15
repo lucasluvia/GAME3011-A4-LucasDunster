@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public Skill SkillLevel;
 
     private TextOutput textOutput;
+    private RectTransform slotContainerTransform;
 
     //List of Button Components
     public List<ButtonComponent> buttonList = new List<ButtonComponent>();
@@ -31,6 +32,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         textOutput = GameObject.FindWithTag("Log").GetComponent<TextOutput>();
+        slotContainerTransform = GameObject.FindWithTag("SlotContainer").GetComponent<RectTransform>();
 
         foreach (GameObject button in GameObject.FindGameObjectsWithTag("Button"))
         {
@@ -125,6 +127,27 @@ public class GameController : MonoBehaviour
                 charsInPassword = 6;
                 break;
         }
+
+        if(charsInPassword == 4)
+        {
+            slotList[4].gameObject.SetActive(false);
+            slotList[5].gameObject.SetActive(false);
+            slotContainerTransform.anchoredPosition = new Vector3(200f, 300f);
+        }
+        else if(charsInPassword == 5)
+        {
+            slotList[4].gameObject.SetActive(true);
+            slotList[5].gameObject.SetActive(false);
+            slotContainerTransform.anchoredPosition = new Vector3(100f, 300f);
+        }
+        else if(charsInPassword == 6)
+        {
+            slotList[4].gameObject.SetActive(true);
+            slotList[5].gameObject.SetActive(true);
+            slotContainerTransform.anchoredPosition = new Vector3(0f, 300f);
+        }
+
+
         // Used to check if the player has manually altered the difficulty or skill level
 
         // If theres a higher skill level, there shouldnt be as many buttons, which will be handled elsewhere
@@ -165,8 +188,8 @@ public class GameController : MonoBehaviour
     string attemptAsString;
     public void SubmitPasswordAttempt()
     {
-        if(attemptInput.Count == 4)
-        {
+        if(attemptInput.Count == charsInPassword)
+        {   
             attemptAsString = "";
             foreach (char guess in attemptInput)
             {
@@ -174,7 +197,7 @@ public class GameController : MonoBehaviour
             }
 
             CompareToSolution();
-            textOutput.AddLine("GUESS: " + attemptAsString + " Correct: " + lettersCorrect + " Misplaced: " + lettersMisplaced);
+            textOutput.AddLine("GUESS: " + attemptAsString + " - Correct: " + lettersCorrect + " Misplaced: " + lettersMisplaced);
 
             ClearAttempt();
 
@@ -188,11 +211,9 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            textOutput.AddLine("Please enter all FOUR letters to guess!");
+            textOutput.AddLine("Please enter all " + charsInPassword.ToString() + " letters to guess!");
         }
 
-
-        
     }
 
     public void ClearAttempt()

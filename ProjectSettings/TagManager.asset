@@ -9,6 +9,7 @@ TagManager:
   - Confirm
   - Clear
   - Log
+  - SlotContainer
   layers:
   - Default
   - TransparentFX
