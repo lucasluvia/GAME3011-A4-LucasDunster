@@ -8,6 +8,7 @@ TagManager:
   - Slot
   - Confirm
   - Clear
+  - Log
   layers:
   - Default
   - TransparentFX

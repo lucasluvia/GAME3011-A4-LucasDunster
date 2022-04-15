@@ -8,7 +8,9 @@ public class GameController : MonoBehaviour
 {
     public Difficulty DifficultyLevel;
     public Skill SkillLevel;
- 
+
+    private TextOutput textOutput;
+
     //List of Button Components
     public List<ButtonComponent> buttonList = new List<ButtonComponent>();
     public List<SlotComponent> slotList = new List<SlotComponent>();
@@ -28,6 +30,8 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        textOutput = GameObject.FindWithTag("Log").GetComponent<TextOutput>();
+
         foreach (GameObject button in GameObject.FindGameObjectsWithTag("Button"))
         {
             if (button.GetComponent<ButtonComponent>())
@@ -56,7 +60,8 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Queue Full");
+            textOutput.AddLine("All slots full! CLEAR or SUBMIT your guess!");
+            //Debug.Log("Queue Full");
         }
     }
 
@@ -86,10 +91,24 @@ public class GameController : MonoBehaviour
     {
         CheckDifficulty();
 
+        char randomValue;
+
         for (int i = 0; i < charsInPassword; i++)
         {
-            password.Add(availableLetters[Random.Range(0, availableLetters.Count)]);
+            randomValue = availableLetters[Random.Range(0, availableLetters.Count)];
+            Debug.Log(randomValue.ToString());
+
+            while (password.Contains(randomValue))
+            {
+                Debug.Log("Rerolling...");
+                randomValue = availableLetters[Random.Range(0, availableLetters.Count)]; 
+                Debug.Log(randomValue.ToString());
+            }
+
+            password.Add(randomValue);
         }
+
+        textOutput.AddLine("A new password has been set!");
     }
 
     private void CheckDifficulty()
@@ -143,20 +162,37 @@ public class GameController : MonoBehaviour
         }
     }
 
+    string attemptAsString;
     public void SubmitPasswordAttempt()
     {
-        CompareToSolution();
-        Debug.Log("Correct Inputs - " + lettersCorrect);
-        Debug.Log("Misplaced Inputs - " + lettersMisplaced);
-        Debug.Log("Incorrect Inputs - " + (4 - (lettersCorrect + lettersMisplaced)));
-
-        if(lettersCorrect == 4)
+        if(attemptInput.Count == 4)
         {
+            attemptAsString = "";
+            foreach (char guess in attemptInput)
+            {
+                attemptAsString += guess.ToString();
+            }
+
+            CompareToSolution();
+            textOutput.AddLine("GUESS: " + attemptAsString + " Correct: " + lettersCorrect + " Misplaced: " + lettersMisplaced);
+
             ClearAttempt();
-            solvedPasswords++;
-            RandomizeButtonValues();
-            GeneratePassword();
+
+            if (lettersCorrect == 4)
+            {
+                textOutput.AddLine("CORRECT! " + (numOfPasswords - solvedPasswords) + " passwords remain!");
+                solvedPasswords++;
+                RandomizeButtonValues();
+                GeneratePassword();
+            }
         }
+        else
+        {
+            textOutput.AddLine("Please enter all FOUR letters to guess!");
+        }
+
+
+        
     }
 
     public void ClearAttempt()
