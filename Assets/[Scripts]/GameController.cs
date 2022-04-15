@@ -48,6 +48,7 @@ public class GameController : MonoBehaviour
 
         RandomizeButtonValues();
         GeneratePassword();
+        TriggerSkillEffect();
     }
 
     public void RecieveButtonInput(char inputValue)
@@ -63,7 +64,6 @@ public class GameController : MonoBehaviour
         else
         {
             textOutput.AddLine("All slots full! CLEAR or SUBMIT your guess!");
-            //Debug.Log("Queue Full");
         }
     }
 
@@ -77,12 +77,9 @@ public class GameController : MonoBehaviour
         char value = (char)('A' + Random.Range(0, 26));
         foreach (ButtonComponent button in buttonList)
         {
-            //Debug.Log("Generated value: " + value.ToString());
             while (availableLetters.Contains(value))
             {
-                //Debug.Log("Rerolling...");
                 value = (char)('A' + Random.Range(0, 26));
-                //Debug.Log("Generated value: " + value.ToString());
             }
             button.SetValue(value);
             availableLetters.Add(value);
@@ -98,13 +95,10 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < charsInPassword; i++)
         {
             randomValue = availableLetters[Random.Range(0, availableLetters.Count)];
-            Debug.Log(randomValue.ToString());
 
             while (password.Contains(randomValue))
             {
-                Debug.Log("Rerolling...");
                 randomValue = availableLetters[Random.Range(0, availableLetters.Count)]; 
-                Debug.Log(randomValue.ToString());
             }
 
             password.Add(randomValue);
@@ -147,13 +141,49 @@ public class GameController : MonoBehaviour
             slotContainerTransform.anchoredPosition = new Vector3(0f, 300f);
         }
 
-
         // Used to check if the player has manually altered the difficulty or skill level
 
         // If theres a higher skill level, there shouldnt be as many buttons, which will be handled elsewhere
         // BUT it should also give them more time
 
         // If the difficulty has changed, more letters should be added to the code length and more codes should be created.
+    }
+
+    private void TriggerSkillEffect()
+    {
+        foreach(ButtonComponent button in buttonList)
+        {
+            button.gameObject.GetComponent<Button>().interactable = true;
+        }
+
+        int value = 0;
+        char valueChar;
+        switch (SkillLevel)
+        {
+            case Skill.EXPERT:
+                for (int i = 0; i < 2; i++)
+                {
+                    value = Random.Range(0, buttonList.Count);
+                    valueChar = buttonList[value].GetValue();
+                    while (password.Contains(valueChar))
+                    {
+                        value = Random.Range(0, buttonList.Count);
+                        valueChar = buttonList[value].GetValue();
+                    }
+                    buttonList[value].gameObject.GetComponent<Button>().interactable = false;
+                }
+                break;
+            case Skill.ADVANCED:
+                value = Random.Range(0, buttonList.Count);
+                valueChar = buttonList[value].GetValue();
+                while (password.Contains(valueChar))
+                {
+                    value = Random.Range(0, buttonList.Count);
+                    valueChar = buttonList[value].GetValue();
+                }
+                buttonList[value].gameObject.GetComponent<Button>().interactable = false;
+                break;
+        }
     }
 
     private void CompareToSolution()
@@ -207,6 +237,7 @@ public class GameController : MonoBehaviour
                 solvedPasswords++;
                 RandomizeButtonValues();
                 GeneratePassword();
+                TriggerSkillEffect();
             }
         }
         else
@@ -224,6 +255,15 @@ public class GameController : MonoBehaviour
             slotList[i].slotText.text = "-";
         }
         guessedLetters = 0;
+    }
+
+    public void RestartGame()
+    {
+        solvedPasswords = 0;
+        RandomizeButtonValues();
+        GeneratePassword();
+        TriggerSkillEffect();
+        textOutput.AddLine("RESETING GAME!");
     }
 
 }
