@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Button
   - Slot
+  - Confirm
+  - Clear
   layers:
   - Default
   - TransparentFX

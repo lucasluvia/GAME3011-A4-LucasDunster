@@ -11,5 +11,11 @@ public class SlotComponent : MonoBehaviour
     void Start()
     {
         slotText = GetComponentInChildren<TextMeshProUGUI>();
+        RevertTextValue();
+    }
+
+    public void RevertTextValue()
+    {
+        slotText.text = "-";
     }
 }

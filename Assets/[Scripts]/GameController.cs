@@ -148,8 +148,25 @@ public class GameController : MonoBehaviour
         CompareToSolution();
         Debug.Log("Correct Inputs - " + lettersCorrect);
         Debug.Log("Misplaced Inputs - " + lettersMisplaced);
-        Debug.Log("Incorrect Inputs - " + (lettersCorrect - lettersMisplaced));
+        Debug.Log("Incorrect Inputs - " + (4 - (lettersCorrect + lettersMisplaced)));
+
+        if(lettersCorrect == 4)
+        {
+            ClearAttempt();
+            solvedPasswords++;
+            RandomizeButtonValues();
+            GeneratePassword();
+        }
     }
 
+    public void ClearAttempt()
+    {
+        attemptInput.Clear();
+        for (int i = 0; i < guessedLetters; i++)
+        {
+            slotList[i].slotText.text = "-";
+        }
+        guessedLetters = 0;
+    }
 
 }
