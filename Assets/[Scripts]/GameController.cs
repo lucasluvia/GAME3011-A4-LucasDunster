@@ -90,6 +90,8 @@ public class GameController : MonoBehaviour
     private void GeneratePassword()
     {
         CheckDifficulty();
+        if (password.Count != 0)
+            password.Clear();
 
         char randomValue;
 
