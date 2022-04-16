@@ -10,6 +10,7 @@ TagManager:
   - Clear
   - Log
   - SlotContainer
+  - Timer
   layers:
   - Default
   - TransparentFX

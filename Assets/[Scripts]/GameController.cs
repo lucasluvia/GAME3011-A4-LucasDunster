@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
     private TextOutput textOutput;
     private RectTransform slotContainerTransform;
 
+    private TimerController timerController;
+
     //List of Button Components
     public List<ButtonComponent> buttonList = new List<ButtonComponent>();
     public List<SlotComponent> slotList = new List<SlotComponent>();
@@ -21,18 +23,17 @@ public class GameController : MonoBehaviour
 
     public int charsInPassword = 4;
 
-    int numOfPasswords;
-    int solvedPasswords;
-
     int guessedLetters = 0;
 
     int lettersCorrect;
     int lettersMisplaced;
 
+
     void Start()
     {
         textOutput = GameObject.FindWithTag("Log").GetComponent<TextOutput>();
         slotContainerTransform = GameObject.FindWithTag("SlotContainer").GetComponent<RectTransform>();
+        timerController = GameObject.FindWithTag("Timer").GetComponent<TimerController>();
 
         foreach (GameObject button in GameObject.FindGameObjectsWithTag("Button"))
         {
@@ -104,7 +105,6 @@ public class GameController : MonoBehaviour
             password.Add(randomValue);
         }
 
-        textOutput.AddLine("A new password has been set!");
     }
 
     private void CheckDifficulty()
@@ -141,12 +141,6 @@ public class GameController : MonoBehaviour
             slotContainerTransform.anchoredPosition = new Vector3(0f, 300f);
         }
 
-        // Used to check if the player has manually altered the difficulty or skill level
-
-        // If theres a higher skill level, there shouldnt be as many buttons, which will be handled elsewhere
-        // BUT it should also give them more time
-
-        // If the difficulty has changed, more letters should be added to the code length and more codes should be created.
     }
 
     private void TriggerSkillEffect()
@@ -196,11 +190,10 @@ public class GameController : MonoBehaviour
             if(attemptInput[i] == password[i])
             {
                 lettersCorrect++;
-                slotList[i].slotState = SlotState.CORRECT;
                 CorrectInputs.Add(password[i]);
             }
         }
-        if (lettersCorrect < 4)
+        if (lettersCorrect < password.Count)
         {
             for (int i = 0; i < charsInPassword; i++)
             {
@@ -231,13 +224,13 @@ public class GameController : MonoBehaviour
 
             ClearAttempt();
 
-            if (lettersCorrect == 4)
+            if (lettersCorrect == charsInPassword)
             {
-                textOutput.AddLine("CORRECT! " + (numOfPasswords - solvedPasswords) + " passwords remain!");
-                solvedPasswords++;
+                textOutput.AddLine("CORRECT!");
                 RandomizeButtonValues();
                 GeneratePassword();
                 TriggerSkillEffect();
+                EndGamePhase(true);
             }
         }
         else
@@ -259,11 +252,28 @@ public class GameController : MonoBehaviour
 
     public void RestartGame()
     {
-        solvedPasswords = 0;
         RandomizeButtonValues();
         GeneratePassword();
         TriggerSkillEffect();
-        textOutput.AddLine("RESETING GAME!");
+        timerController.ResetTimer();
+        textOutput.AddLine("RESETTING GAME!");
+    }
+
+    public void EndGamePhase(bool isWinState)
+    {
+        foreach (ButtonComponent button in buttonList)
+        {
+            button.gameObject.GetComponent<Button>().interactable = false;
+        }
+
+        timerController.isPaused = true;
+
+        if(isWinState)
+            textOutput.AddLine("YOU WON!");
+        else
+            textOutput.AddLine("TIME'S OUT! YOU LOST!");
+
+        textOutput.AddLine("Reset on main page to play again!");
     }
 
 }

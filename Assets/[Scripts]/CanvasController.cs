@@ -7,10 +7,14 @@ public class CanvasController : MonoBehaviour
     [SerializeField] private Canvas worldCanvas;
     [SerializeField] private Canvas gameCanvas;
 
+    private TimerController timerController;
+
     void Start()
     {
         worldCanvas.enabled = true;
         gameCanvas.enabled = false;
+        timerController = GameObject.FindWithTag("Timer").GetComponent<TimerController>();
+        timerController.isPaused = worldCanvas.enabled;
     }
 
     void Update()
@@ -25,5 +29,6 @@ public class CanvasController : MonoBehaviour
     {
         worldCanvas.enabled = !worldCanvas.enabled;
         gameCanvas.enabled = !gameCanvas.enabled;
+        timerController.isPaused = worldCanvas.enabled;
     }
 }

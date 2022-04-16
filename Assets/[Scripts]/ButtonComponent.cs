@@ -13,7 +13,6 @@ public class ButtonComponent : MonoBehaviour
     {
         gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
-        //SetValue((char)('A' + Random.Range(0, 26)));
     }
 
     public void SetValue(char newVal)
