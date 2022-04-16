@@ -2616,7 +2616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 0}
-  totalTime: 120
+  totalTime: 180
   isPaused: 0
 --- !u!1 &1646126348
 GameObject:
@@ -4664,7 +4664,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 560, y: -528.7}
+  m_AnchoredPosition: {x: 728.99994, y: -397.69995}
   m_SizeDelta: {x: 148.6107, y: 56.0176}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4918866519087172292
@@ -5799,13 +5799,16 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Welcome!\nThis is the canvas that would normally contain gameplay UI.
-    \n\nThe goal is to unlock the required locks by finding the sweet spot and following
-    it around as the lock rotates to line up the two lines. Click the cursor to move
-    it. Press the down arrow to lock in your choice.\n\nA harder difficulty means
-    you will have more locks to open, a higher skill means you will have a larger
-    buffer area around the correct unlock point.\n\nTo change the levels set the
-    dropdowns and click reset to start a new level.\n\nPress 'space' to switch between
-    this canvas and the minigame at any time. "
+    \n\nThis is a hacking minigame, where you have to try to find a passcode. You
+    are presented with a list of possible characters and are told how many you enter
+    are correct and how many are misplaced, but its up to you to figure out the correct
+    characters and their order in time!\n\nPress Confirm to send your guess, or if
+    you make a mistake press clear to restart that guess.\n\nA higher difficulty
+    will increase the length of the word, and a more advanced skill level will eliminate
+    some options for you! Set the dropdowns and press Reset to apply changes and
+    generate a new password\n\nPress 'space' to switch between this canvas and the
+    minigame at any time, don't worry, the timer will pause for you while you're
+    here!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5868,7 +5871,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -348.1947, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6141,8 +6144,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 580, y: -160}
-  m_SizeDelta: {x: 450, y: 125}
+  m_AnchoredPosition: {x: 728.99994, y: -756}
+  m_SizeDelta: {x: 333.1, y: 257.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4918866519934931689
 MonoBehaviour:
@@ -6411,7 +6414,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 560, y: -300}
+  m_AnchoredPosition: {x: 729, y: -169}
   m_SizeDelta: {x: 148.6107, y: 56.0176}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4918866520179226447

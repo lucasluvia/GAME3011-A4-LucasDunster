@@ -60,7 +60,6 @@ public class GameController : MonoBehaviour
             guessedLetters++;
 
             attemptInput.Add(inputValue);
-            Debug.Log(inputValue);
         }
         else
         {
